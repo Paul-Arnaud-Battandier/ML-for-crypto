@@ -1,0 +1,12 @@
+# Données et Modèles (Trop lourds pour Git)
+data/
+models/
+*.csv
+*.zip
+*.bst
+*.pkl
+
+# Python / IDE
+__pycache__/
+.ipynb_checkpoints/
+.vscode/
