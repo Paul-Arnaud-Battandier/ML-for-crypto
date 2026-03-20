@@ -1,0 +1,8 @@
+git add .
+git commit -m ""
+git push
+
+Advances in Financial Machine Learning by Marcos Lopez de Prado
+
+Structure :
+Data -> Features -> Strategy -> Backtest -> Deployment -> Oversight
