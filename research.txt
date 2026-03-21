@@ -2,7 +2,32 @@ git add .
 git commit -m ""
 git push
 
-Advances in Financial Machine Learning by Marcos Lopez de Prado
+
+Book : Advances in Financial Machine Learning by Marcos Lopez de Prado
+
 
 Structure :
-Data -> Features -> Strategy -> Backtest -> Deployment -> Oversight
+Research -> Data -> Features -> Strategy -> Backtest -> Deployment -> Oversight
+
+
+Research :
+Bitcoin :
+- Open 24/7/365
+- Importance of retail
+- Different phases
+
+Budget : 100€
+Binance Fees : 0.1%
+BTC/USDT
+Swing Trading
+
+Funding Rate
+Flux on chain
+Open interest
+Cyclique
+
+Look Ahead bias
+Overfitting
+
+
+Data :
