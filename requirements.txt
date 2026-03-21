@@ -1,4 +1,21 @@
+# data
 pandas
 numpy
-scikit-learn
+ccxt
+requests
+yfinance
+
+# analysis & EDA
+statsmodels
+scipy
 matplotlib
+seaborn
+
+# ML
+scikit-learn
+xgboost
+lightgbm
+
+# utils
+python-dotenv
+tqdm

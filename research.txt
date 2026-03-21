@@ -2,6 +2,8 @@ git add .
 git commit -m ""
 git push
 
+pip install -r requirements.txt
+
 
 Book : Advances in Financial Machine Learning by Marcos Lopez de Prado
 
@@ -31,3 +33,9 @@ Overfitting
 
 
 Data :
+OHLCV
+Funding rate
+Open interest
+Fear & Greed
+On chain data ?
+yfinance (dollar, actions…)
