@@ -1,4 +1,4 @@
-# Données et Modèles (Trop lourds pour Git)
+# Données et Modèles
 data/
 models/
 *.csv
