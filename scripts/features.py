@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
+
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config import START_DATE, END_DATE
 
 
 def load_raw_data():
@@ -20,12 +24,13 @@ def clean_standardize(data_dict):
     # 2. Funding (ms)
     data_dict['funding']['timestamp'] = pd.to_datetime(data_dict['funding']['fundingTime'], unit='ms', utc=True)
     data_dict['funding'].set_index('timestamp', inplace=True)
-    data_dict['funding'] = data_dict['funding'][['fundingRate']]
+    data_dict['funding'] = data_dict['funding'][['fundingRate']].rename(columns={'fundingRate': 'funding_rate'})
+
 
     # 3. Fear & Greed (s)
     data_dict['fng']['timestamp'] = pd.to_datetime(data_dict['fng']['timestamp'], unit='s', utc=True)
     data_dict['fng'].set_index('timestamp', inplace=True)
-    data_dict['fng'] = data_dict['fng'][['value']].rename(columns={'value': 'fng_value'}).astype(float)
+    data_dict['fng'] = data_dict['fng'][['value']].rename(columns={'value': 'fear_greed'}).astype(float)
     
     # 4. Traitement Spécifique Macro (MultiIndex)
     df_m = data_dict['macro'].copy()
@@ -50,20 +55,18 @@ def clean_standardize(data_dict):
 
 
 def merge_and_fill(data_dict):
-    # On part de l'OHLCV (notre base de temps)
     master_df = data_dict['ohlcv'].copy()
-
-    # Jointure successive
     master_df = master_df.join(data_dict['funding'], how='left')
     master_df = master_df.join(data_dict['fng'], how='left')
     master_df = master_df.join(data_dict['macro'], how='left')
-
-    # LE MOMENT CRUCIAL : Forward Fill
-    # On propage la dernière valeur connue (F&G, Macro) sur les lignes vides
     master_df.ffill(inplace=True)
-
-    # On drop les quelques lignes au tout début s'il manque de la macro
     master_df.dropna(inplace=True)
+
+    # explicit trim to config dates
+    master_df = master_df[
+        (master_df.index >= pd.Timestamp(START_DATE, tz="UTC")) &
+        (master_df.index <  pd.Timestamp(END_DATE,   tz="UTC"))
+    ]
 
     return master_df
 
@@ -117,6 +120,7 @@ def main():
 
     # 5. Persistence
     save_processed_data(cleaned_data, master_df)
+
 
 if __name__ == "__main__":
     main()
