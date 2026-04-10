@@ -13,4 +13,3 @@ MODELS_DIR     = "models/"
 
 # === Binance ===
 BINANCE_FUTURES_URL = "https://fapi.binance.com/fapi/v1/fundingRate"
-# no API key needed for public market data
