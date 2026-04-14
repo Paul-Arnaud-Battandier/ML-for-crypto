@@ -35,7 +35,10 @@ Overfitting
 Data :
 OHLCV
 Funding rate
-Open interest
+Open interest <- Not possible
 Fear & Greed
-On chain data ?
 yfinance (dollar, actions…)
+On chain data ?
+
+
+Features :
