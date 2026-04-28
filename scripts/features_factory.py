@@ -60,8 +60,8 @@ def build_features(df):
     feat['dxy_ret_lag1'] = dxy_ret.shift(1)
 
     # --- 6. TARGET ---
-    # On prédit le rendement à T+1
-    feat['target'] = feat['log_return'].shift(-1)
+    # On prédit la direction du prochain log return (1 si positif, 0 sinon)
+    feat['target'] = (feat['log_return'].shift(-1) > 0).astype(int)
 
     # --- NETTOYAGE ---
     # On drop les NaNs créés par les rolling/lags et la dernière ligne (target inconnue)

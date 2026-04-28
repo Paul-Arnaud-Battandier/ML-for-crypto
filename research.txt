@@ -9,7 +9,7 @@ Book : Advances in Financial Machine Learning by Marcos Lopez de Prado
 
 
 Structure :
-Research -> Data -> Features -> Strategy -> Backtest -> Deployment -> Oversight
+Research -> Data -> Features -> Strategy & Training -> Backtest -> Deployment -> Oversight
 
 
 Research :
