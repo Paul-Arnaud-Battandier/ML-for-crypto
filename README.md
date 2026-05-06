@@ -1,1 +1,1 @@
-BTC Algorithmic Trading
+# BTC Algorithmic Trading Bot
