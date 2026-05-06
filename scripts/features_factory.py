@@ -59,15 +59,22 @@ def build_features(df):
     feat['nasdaq_ret_lag4'] = nasdaq_ret.shift(4)
     feat['dxy_ret_lag1'] = dxy_ret.shift(1)
 
-    # --- 6. TARGET ---
-    # On prédit la direction du prochain log return (1 si positif, 0 sinon)
-    feat['target'] = (feat['log_return'].shift(-1) > 0).astype(int)
+    # --- 6. TARGET (Modèle Primaire : Horizon 24h) ---
+    # Question simple : le prix sera-t-il plus haut dans 24h (6 bougies de 4H) ?
+    # On utilise le log return pour la propreté mathématique
+    future_return = np.log(feat['close'].shift(-6) / feat['close'])
+    feat['target'] = (future_return > 0).astype(int)
 
     # --- NETTOYAGE ---
-    # On drop les NaNs créés par les rolling/lags et la dernière ligne (target inconnue)
+    # On drop les NaNs créés par les rolling/lags.
+    # IMPORTANT : Le shift(-6) va créer des NaNs sur les 6 DERNIÈRES lignes du dataset.
+    # Le dropna() va automatiquement les supprimer pour éviter tout Data Leakage.
     feat = feat.dropna()
 
-    return feat
+    print("Distribution du Target (24h) :")
+    print(feat['target'].value_counts(normalize=True) * 100)
+    
+    return feat # ou selon comment ta fonction se termine
 
 if __name__ == "__main__":
     # Chemins des fichiers (ajustés pour être lancés depuis la racine du projet)
