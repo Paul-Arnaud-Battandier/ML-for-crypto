@@ -19,7 +19,7 @@ Bitcoin :
 - Different phases
 
 Budget : 100€ -> possible to do on binance testnet
-Binance Fees : 0.1%
+Binance Fees : 0.1% (Futures : 0.02% (Maker) et 0.05% (Taker))
 BTC/USDT
 Swing Trading
 
@@ -42,7 +42,12 @@ On chain data ?
 
 
 Features :
-9 de base + 15 added
+9 scrapped + 15 added
 
 
 Training :
+XGBoost vs LightGBM -> XGBoost winner
+
+Optuna to search for the best hyperparameters
+
+Model : 4h candle to predict candle 24 hours later
