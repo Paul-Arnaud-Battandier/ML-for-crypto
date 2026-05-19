@@ -12,52 +12,40 @@ Structure :
 Research -> Data -> Features -> Training -> Backtest -> Deployment -> Oversight
 
 
-Research :
-Bitcoin :
-- Open 24/7/365
-- Importance of retail
-- Different phases
-
-Budget : 100€ -> possible to do on binance testnet
-Binance Fees : 0.1% (Futures : 0.02% (Maker) et 0.05% (Taker))
-BTC/USDT
-Swing Trading
-
-Funding Rate
-Flux on chain
-Open interest
-Cyclique
-
-Look Ahead bias
-Overfitting
+Research & Strategy:
+- Asset: BTC/USDT.
+- Market Characteristics: 24/7/365 trading environment, heavily retail-driven, distinct cyclical regimes.
+- Trading Horizon: Swing Trading.
+- Underlying Drivers: Funding Rates, on-chain flows, macroeconomic cyclicality.
+- Execution & Capital: 100€ initial budget (Forward-testing via Binance Testnet).
+- Transaction Costs: Binance Futures (Maker: 0.02% | Taker: 0.05%).
+- Primary Quantitative Risks: Look-ahead bias, Overfitting (Curve-fitting).
 
 
 Data :
-OHLCV
-Funding rate
-Open interest <- Not possible
-Fear & Greed
-yfinance (dollar, actions…)
-On chain data ?
+- Market Data: OHLCV.
+- Alternative Data: Funding Rate, Fear & Greed Index.
+- Macroeconomic Data: DXY (US Dollar), Equities (via yfinance).
+- Excluded: Open Interest (Historical data unavailable at required granularity).
 
 
 Features :
-9 scrapped + 15 added
+- Raw Inputs: 9 base features.
+- Engineered Predictors: 15 quantitative features (Stationary transformations, volatility metrics, relative distances).
 
 
 Training :
-XGBoost vs LightGBM -> XGBoost winner
+Phase 1: Primary Model (Directional Prediction)
+- Prediction Horizon: 4H timeframe predicting T+24H (Rolling window approach for time diversification).
+- Algorithm Selection: XGBoost (Outperformed LightGBM in purged cross-validation).
+- Hyperparameter Optimization: Optuna (TPE algorithm with Median Pruner).
 
-Optuna to search for the best hyperparameters
-
-Model : 4h candle to predict candle 24 hours later
-
-Meta-Labeling (Risk Management) :
-- Architecture : Random Forest (n_estimators=200, max_depth=5, class_weight='balanced')
-- Triple Barrier setup : Profit Taking = 1.5x Volatility | Stop Loss = 1.0x Volatility | Time = 24h
-- Break-even cible (Ratio 1.5:1) : > 40.0% de précision requise
-- Taux de réussite brut (XGBoost seul) : 33.25% (Perte)
-- Seuil de Confiance retenu (Sweet Spot) : 54.0%
-- Précision Finale du Meta-Modèle : 55.14% (Rentable)
-- Expectancy (Espérance de gain) : Positive (+37.5$ nets par trade risquant 100$)
-- Position Sizing prévu : Dynamique basé sur la probabilité du Meta-Modèle
+ Phase 2: Meta-Labeling (Risk & Trade Management)
+- Architecture: Random Forest Classifier (n_estimators=200, max_depth=5, class_weight='balanced').
+- Triple Barrier Setup: Profit Taking = 1.5x Volatility | Stop Loss = 1.0x Volatility | Time Limit = 24h.
+- Mathematical Break-even (1.5:1 R/R Ratio): > 40.0% precision required.
+- Primary Model Win Rate (XGBoost alone): 33.25% (Unprofitable).
+- Optimal Confidence Threshold: 54.0%.
+- Meta-Model Final Precision: 55.14% (Profitable).
+- Expectancy: Positive (+$37.5 net per trade assuming $100 risk).
+- Position Sizing Strategy: Dynamic capital allocation based on Meta-Model output probability.
