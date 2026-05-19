@@ -51,3 +51,13 @@ XGBoost vs LightGBM -> XGBoost winner
 Optuna to search for the best hyperparameters
 
 Model : 4h candle to predict candle 24 hours later
+
+Meta-Labeling (Risk Management) :
+- Architecture : Random Forest (n_estimators=200, max_depth=5, class_weight='balanced')
+- Triple Barrier setup : Profit Taking = 1.5x Volatility | Stop Loss = 1.0x Volatility | Time = 24h
+- Break-even cible (Ratio 1.5:1) : > 40.0% de précision requise
+- Taux de réussite brut (XGBoost seul) : 33.25% (Perte)
+- Seuil de Confiance retenu (Sweet Spot) : 54.0%
+- Précision Finale du Meta-Modèle : 55.14% (Rentable)
+- Expectancy (Espérance de gain) : Positive (+37.5$ nets par trade risquant 100$)
+- Position Sizing prévu : Dynamique basé sur la probabilité du Meta-Modèle
